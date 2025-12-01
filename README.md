@@ -92,7 +92,7 @@ A web application which is designed and implemented with Python and JavaScript.
       ```
 5. Open your web browser and go to the URL `http://127.0.0.1:8000/` to access the home page of Qwerty.      
 
-## Additional information that staff should know
+## Additional information
 
 `Qwerty/settings.py -`
 

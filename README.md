@@ -135,5 +135,5 @@ When DEBUG is True, Django will use the console.EmailBackend email backend to se
 5. Open your web browser, Paste the link in URL bar and press enter, it will navigate you to the password reset screen to reset your password.
 6. Type your New Password and done.
 
-_______________________________________
+_________________________________________
 

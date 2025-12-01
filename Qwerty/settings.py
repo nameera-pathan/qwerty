@@ -30,7 +30,7 @@ if DEBUG:
 
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['qwerty-c4mp.onrender.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -146,5 +146,6 @@ CKEDITOR_CONFIGS = {
         'width': 400,
     },
 }
+
 
 

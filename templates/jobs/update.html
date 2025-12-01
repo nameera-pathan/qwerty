@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="ftco-section msg-display" style="height:100vh;">
+  <div class="container">
+    <div class="row justify-content-center">
+
+          <div class="col-md-12 col-lg-8 mb-5">
+                {% if user.is_employer %}
+			     <form action="#" class="p-5 " enctype="multipart/form-data" method="post">
+                     {% csrf_token %}
+                     {% if form.errors %}
+                     <div class="alert alert-danger alert-dismissible" role="aler">
+                         <div id="form_errors">
+                             {% for key,value in form.errors.items %}
+                             <span class="fieldWrapper">
+                                 {{ key }} : {{ value }}
+                             </span>
+                             {% endfor %}
+                         </div>
+                         <button type="button" class="close" data-dismiss="alert" aria-hidden="Close">
+                             <span aria-hidden="true">&times</span>
+                         </button>
+
+                     </div>
+                     {% endif %}
+              {% for field in form.visible_fields|slice:"3" %}
+
+              <div class="row form-group">
+                <div class="col-md-12 mb-2 mb-md-0">
+                  <label class="font-weight-bold" for="fullname">{{ field.label }}</label>
+                  <input type="{{ field.field.widget.input_type }}" id="fullname" class="form-control" value="{{ field.value }}" name="{{ field.html_name }}" autocomplete="off">
+                </div>
+              </div>
+
+            {% endfor %}
+
+                     <div class="row form-group">
+                <div class="col-md-12"><h3 style="color:grey;">Job Type</h3></div>
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label for="option-job-type-1">
+                     {{ form.job_type }}
+                  </label>
+                </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class="col-md-12"><h3 style="color:grey;">{{ form.salary.label }}</h3></div>
+                  <div class="col-md-12 mb-3 mb-md-0">
+                          {{ form.salary }}
+                  </div>        
+                  </div>
+                
+                  <div class="row form-group">
+                    <div class="col-md-12"><h3 style="color:grey;">{{ form.companylogo.label }}</h3></div>
+                    <div class="col-md-12 mb-3 mb-md-0">
+                            {{ form.companylogo }}
+                    </div>        
+                    </div>
+                  
+
+                <div class="row form-group">
+                <div class="col-md-12"><h3 style="color:grey;">Description</h3></div>
+                <div class="col-md-10 mb-3 mb-md-0">
+                        {{ form.description }}
+                </div>        
+                </div>
+
+                <div class="row form-group">
+                  <div class="col-md-12"><h3 style="color:grey;">{{ form.qualification.label }}</h3></div>
+                  <div class="col-md-11 mb-3 mb-md-0">
+                          {{ form.qualification }}
+                  </div>        
+                  </div>
+
+                  <div class="row form-group">
+                    <div class="col-md-12"><h3 style="color:grey;">{{ form.skills.label }}</h3></div>
+                    <div class="col-md-11 mb-3 mb-md-0">
+                            {{ form.skills }}
+                    </div>        
+                    </div>
+
+                  <div class="row form-group">
+                    <div class="col-md-12"><h3 style="color:grey;">Website</h3></div>
+                    <div class="col-md-10 mb-3 mb-md-0">
+                            {{ form.website }}
+                    </div>        
+                    </div>
+
+                    <div class="row form-group">
+                      <div class="col-md-12"><h3 style="color:grey;">Twitter</h3></div>
+                      <div class="col-md-10 mb-3 mb-md-0">
+                              {{ form.twitter }}
+                      </div>        
+                      </div>
+                      
+                      <div class="row form-group">
+                        <div class="col-md-12"><h3 style="color:grey;">Instagram</h3></div>
+                        <div class="col-md-10 mb-3 mb-md-0">
+                                {{ form.instagram }}
+                        </div>        
+                        </div>
+                        <div class="row form-group">
+                          <div class="col-md-12"><h3 style="color:grey;">Facebook</h3></div>
+                          <div class="col-md-10 mb-3 mb-md-0">
+                                  {{ form.facebook }}
+                          </div>        
+                          </div>
+
+                <div class="row form-group">
+                <div class="col-md-12">
+                  <input type="submit" value="Update" class="btn btn-primary  py-2 px-5">
+                </div>
+              </div>
+
+            </form>
+              {% else %}
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label for="option-job-type-1">
+                    You Are Not An Employer
+                  </label>
+                </div>
+                </div>
+              {% endif %}
+          </div>
+
+
+
+	{% endblock %}
+

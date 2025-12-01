@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+		<section class="ftco-section" style="height:100vh; background-color:black;">
+			<div class="container">
+                {% if user.is_employee %}
+                {% if jobs %}
+                
+				<div class="row justify-content-center">
+
+            {% for job in jobs %}
+          <div class="col-md-10 ftco-animate">
+						<div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center" style="border-radius:15px;">
+
+						  <div class="mb-4 mb-md-0 mr-5">
+						   <div class="job-post-item-header d-flex align-items-center">
+						     <h2 class="mr-3 text-black h4">{{ job.title }}</h2>
+						             
+						   </div>
+						   <div class="job-post-item-body d-block d-md-flex">
+						     <div class="mr-3"><span class="icon-layers"></span>{{ job.company }}</div>
+						     <div class="mr-3"><span class="icon-my_location"></span> <span>{{ job.location }}</span></div>
+                 <div class="badge-wrap">
+                  {% if job.job_type == 'full_time' %}
+                <span class="bg-warning text-white badge py-2 px-3">Full Time</span>
+                  {% elif job.job_type == 'part_time'%}
+              <span class="bg-info text-white badge py-2 px-3">Part Time</span>
+             {% elif job.job_type == 'freelance'%}
+              <span class="bg-secondary text-white badge py-2 px-3">Freelance</span>
+            {% elif job.job_type == 'internship'%}
+              <span class="bg-primary text-white badge py-2 px-3">Internship</span>
+            {% elif job.job_type == 'temporary'%}
+             <span class="bg-danger text-white badge py-2 px-3">Temporary</span>
+          {% endif %}
+             </div>
+						   </div>
+						  </div>
+
+						  <div class="ml-auto d-flex">
+						  	<a href="{% url 'jobs:single_job' job.slug job.pk %}" class="btn btn-primary py-2 mr-1">View Details</a>
+                                {% if job.id in save_job %}
+                                <a  href="javascripts:void(0);"  title="Remove from Saved Jobs" onclick="addorremove({{ job.id }})" class="btn rounded-circle  d-flex align-items-center">
+                                  <span>
+                    <img id="jobsj{{ job.id }}"  data-sj="1" src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png" style="height:20px;wdith:20px;"  > 
+                  </span>
+                              </a>
+                                {% else %}
+  
+                              <a href="javascripts:void(0);"   title="Save Job"  onclick="addorremove({{ job.id }})" class="btn rounded-circle  d-flex align-items-center">
+                                  <span>
+                     <img id="jobsj{{ job.id }}" data-sj="0" src="https://cdn-icons-png.flaticon.com/512/2107/2107952.png" style="height:20px;wdith:20px;"/>
+                    
+                    </span>
+                              </a>
+                              {% endif %}
+              </div>
+						</div>
+          </div>
+                {% endfor %}
+                    {% else %}
+                    <div class="row justify-content-center mb-5 pb-3">
+                      <div class="col-md-7 heading-section text-center ftco-animate">
+                        <h3 class="mb-4" style="color:grey;">It looks like you haven't saved any jobs yet</h3>
+                      </div>
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section text-center ftco-animate">
+            <h2 class="mb-4" style="color:white;">You are not An Employee!</h2>
+          </div>
+        </div>
+                    {% endif %}
+				</div>
+				{% if user.is_authenticated %}
+				<div class="row mt-5">
+                    {% if is_paginated %}
+          <div class="col text-center">
+            <div class="block-27">
+              <ul>
+                  {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+                  {% else %}
+                  <li class="disabled"><span>&lt;</span></li>
+                  {% endif %}
+                  {% for i in paginator.page_range %}
+                  {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }}</span></li>
+                  {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+                  {% else %}
+                  <li class="disabled"><span>&gt;</span></li>
+                  {% endif %}
+              </ul>
+            </div>
+          </div>
+                    {% endif %}
+        </div>
+				{% endif %}
+			</div>
+		</section>
+
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; margin-top:3rem;">
+      <h1 style="text-align:center; color:white; width:100%; margin-top:2rem;">Login</h1>
+
+          <div class="login-form">
+                {% if not user.is_authenticated %}
+			     <form action="#" method="post" class="form">
+                     {% csrf_token %}
+                     {% if form.errors %}
+                     <div class="alert alert-danger alert-dismissible" role="aler">
+                         <div id="form_errors">
+                             {% for key,value in form.errors.items %}
+                             <span class="fieldWrapper">
+                                 {{ value }}
+                             </span>
+                             {% endfor %}
+                         </div>
+                         <button type="button" class="close" data-dismiss="alert" aria-hidden="Close">
+                             <span aria-hidden="true">&times</span>
+                         </button>
+
+                     </div>
+                     {% endif %}
+              {% for field in form.visible_fields %}
+
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="fullname">{{ field.label }}</label>
+                  <input type="{{ field.field.widget.input_type }}" id="fullname" class="form-control" placeholder="{{ field.label }}" name="{{ field.html_name }}" autocomplete="off">
+                </div>
+              </div>
+
+            {% endfor %}
+
+
+
+                <div class="row form-group">
+                <div class="col-md-12">
+                  <input type="submit" value="Login" class="btn btn-success py-2 px-5">
+                    <label class="font-weight-bold" style="margin-left:10px;">Forgot Password ?<a href="{% url 'password_reset' %}" style="color:white; margin-left:10px;">click here</a> </label>
+
+                </div>
+
+              </div>
+
+
+            </form>
+              {% else %}
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="fullname" style="color:red;">You Already Logged in</label>
+                </div>
+              </div>
+              {% endif %}
+          </div>
+
+      </div>
+    </div>
+
+
+	{% endblock %}
+

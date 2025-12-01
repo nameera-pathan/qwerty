@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="ftco-section msg-display" style="height:100vh;">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-12 col-lg-8" >
+{% if user.is_employee %}
+			     <form action="#" method="post" enctype="multipart/form-data" style="background-color:black;">
+                     {% csrf_token %}
+                     {% if form.errors %}
+                     <div class="alert alert-danger alert-dismissible" role="aler">
+                         <div id="form_errors">
+                             {% for key,value in form.errors.items %}
+                             <span class="fieldWrapper">
+                                 {{ key }} : {{ value }}
+                             </span>
+                             {% endfor %}
+                         </div>
+                         <button type="button" class="close" data-dismiss="alert" aria-hidden="Close">
+                             <span aria-hidden="true">&times</span>
+                         </button>
+
+                     </div>
+                     {% endif %}
+              {% for field in form.visible_fields|slice:"8" %}
+
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="font-weight-bold" for="fullname">{{ field.label }}</label>
+                  <input type="{{ field.field.widget.input_type }}" id="fullname" value="{{ field.value }}" class="form-control" placeholder="{{ field.label }}" name="{{ field.html_name }}" autocomplete="off">
+                </div>
+              </div>
+
+            {% endfor %}
+
+                    <div class="row form-group">
+                      <div class="col-md-12"><label class="font-weight-bold">{{ form.skills.label }}</label></div>
+                      <div class="col-md-11 mb-3 mb-md-0">
+                              {{ form.skills }}
+                      </div>        
+                    </div>       
+
+
+                <div class="row form-group">
+                <div class="col-md-12">
+                  <input type="submit" value="Update" class="btn btn-primary  py-2 px-5">
+                </div>
+              </div>
+            </form>
+{% endif %}
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+	{% endblock %}
+

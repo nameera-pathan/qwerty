@@ -1,0 +1,314 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if not user.is_authenticated %}
+
+<main class="homepage-content">
+  <div class="description">
+	<div class="row justify-content-center"><img class="img-comp" src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHw%3D&w=1000&q=80" style="margin-top:3rem; opacity:0.5;z-index:1">
+	</div>
+    <h2 style="color:grey;">Find Your Next Career Opportunity</h2>
+   <h3 style="color:grey;"> Welcome to the Qwerty</h3>
+    <p> where you can search for jobs, apply to positions, and connect with top employers. Whether you're a seasoned professional or just starting out, we have something for everyone.</p>
+    <p>Start exploring today and take the first step towards your dream career.</p>
+  </div>
+</main>
+
+<footer class="text-white py-3">
+    <div class="container">
+      <p class="text-center mb-0">CS50’s Web Programming with Python and JavaScript</p>
+	  <p class="text-center mb-0">Final Project : Capstone</p>
+    </div>
+  </footer>
+
+{% endif %}
+
+{% if user.is_authenticated and user.is_employee %}
+
+    <section>
+    <div class="overlay"></div>
+      <div class="container" style="height:100vh;">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" >
+          
+        <div class="col-xl-10 ftco-animate mb-5 pb-3" >
+            <div class="row justify-content-center"><img class="img-comp" src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHw%3D&w=1000&q=80" style="  opacity:0.5;z-index:1"></div>
+            <div class="row justify-content-center s1" style="color:grey;">Your future, at your fingertips</div>
+            <div class="row justify-content-center s1" style="color:grey;">Explore a wide range of career opportunities</div>
+            <div class="row justify-content-center s1" style="color:grey;">Find the right fit, right now</div>
+             
+					<div class="row" style="z-index:4">
+          
+			          <div class="col-md-12 tab-wrap">
+			            <div class="mt-5" style="background-color:black;">
+			           
+                      <form action="{% url 'jobs:search' %}" class="search-job" method="get" >
+			              		<div class="row">
+			              			<div class="col-md">
+			              				<div class="form-group">
+				              				<div class="form-field" style="background-color:white; border-radius:5px;">
+				              					<div class="icon" ><span class="icon-briefcase"></span></div>
+								                <input type="text" name="job_title" class="form-control" placeholder="eg. Web Developer" autocomplete="off">
+								              </div>
+							              </div>
+			              			</div>
+			              			<div class="col-md">
+			              				<div class="form-group">
+			              					<div class="form-field" style="background-color:white; border-radius:5px;">
+				              					<div class="select-wrap">
+						                      <div class="icon"><span class="icon-filter_list"></span></div>
+						                      <select name="job_type" class="form-control">
+						                      	<option value="full_time">Full Time</option>
+						                        <option value="part_time">Part Time</option>
+						                        <option value="freelance">Freelance</option>
+						                        <option value="internship">Internship</option>
+						                        <option value="temporary">Temporary</option>
+						                      </select>
+						                    </div>
+								              </div>
+							              </div>
+			              			</div>
+			              			<div class="col-md">
+			              				<div class="form-group">
+			              					<div class="form-field" style="background-color:white; border-radius:5px;">
+				              					<div class="icon"><span class="icon-map-marker"></span></div>
+								                <input type="text" name="job_location" class="form-control" placeholder="Location" autocomplete="off">
+								              </div>
+							              </div>
+			              			</div>
+			              			<div class="col-md">
+			              				<div class="form-group">
+			              					<div class="form-field">
+								                <input type="submit" value="Search" class="form-control btn btn-success">
+								              </div>
+							              </div>
+			              			</div>
+			              		</div>
+			              	</form>
+
+			              </div>
+			            </div>
+			          </div>
+
+			        </div>
+		        </div>
+          </div>
+        </div>
+
+      </section>
+
+
+		<section class="ftco-section mb-4 pb-4" style="height:100vh; border-top:1px solid grey;">
+			<div class="container">
+			 <div class="row justify-content-center">
+
+       {% for job in jobs %}
+          <div class="col-md-10 ftco-animate">
+
+				<div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center" style="border-radius:15px;">
+						  <div class="mb-4 mb-md-0 mr-5">
+						   <div class="job-post-item-header d-block d-md-flex align-items-center">
+						     <h3 class="mr-3 text-black">{{ job.title }}</h3>
+						   </div>
+
+						   <div class="job-post-item-body d-block d-md-flex">
+						     <div class="mr-3"><span class="icon-layers"></span>{{ job.company }}</div>
+						     <div class="mr-3"><span class="icon-my_location"></span> <span>{{ job.location }}</span></div>
+							 <div class="badge-wrap">
+								{% if job.job_type == 'full_time' %}
+							 <span class="bg-warning text-white badge py-2 px-3">Full Time</span>
+								{% elif job.job_type == 'part_time'%}
+							<span class="bg-info text-white badge py-2 px-3">Part Time</span>
+						   {% elif job.job_type == 'freelance'%}
+							<span class="bg-secondary text-white badge py-2 px-3">Freelance</span>
+							{% elif job.job_type == 'internship'%}
+							<span class="bg-primary text-white badge py-2 px-3">Internship</span>
+						 {% elif job.job_type == 'temporary'%}
+							<span class="bg-danger text-white badge py-2 px-3">Temporary</span>
+						   {% endif %}
+							</div>
+
+						   </div>
+						  </div>
+
+
+						  <div class="ml-auto d-flex">
+						  	<a href="{% url 'jobs:single_job' job.slug job.pk %}" class="btn btn-primary py-2 mr-1">View details</a>
+                                {% if job.id in save_job %}
+                              <a  href="javascripts:void(0);"  title="Remove from Saved Jobs" onclick="addorremove({{ job.id }})" class="btn rounded-circle  d-flex align-items-center">
+                                <span>
+									<img id="jobsj{{ job.id }}"  data-sj="1" src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png" style="height:20px;wdith:20px;"  > 
+								</span>
+                            </a>
+                              {% else %}
+
+                            <a href="javascripts:void(0);"   title="Save Job"  onclick="addorremove({{ job.id }})" class="btn rounded-circle  d-flex align-items-center">
+                                <span>
+									 <img id="jobsj{{ job.id }}" data-sj="0" src="https://cdn-icons-png.flaticon.com/512/2107/2107952.png" style="height:20px;wdith:20px;"/>
+									
+									</span>
+                            </a>
+                              {% endif %}
+          				    </div>
+						</div>
+         		 </div>
+        {% endfor %}
+		</div>
+
+
+
+
+
+		<div class="row mt-5">
+                    {% if is_paginated %}
+          <div class="col text-center">
+            <div class="block-27">
+              <ul>
+                  {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+                  {% else %}
+                  <li class="disabled"><span>&lt;</span></li>
+                  {% endif %}
+                  {% for i in paginator.page_range %}
+                  {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }}</span></li>
+                  {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+                  {% else %}
+                  <li class="disabled"><span>&gt;</span></li>
+                  {% endif %}
+              </ul>
+            </div>
+          </div>
+                    {% endif %}
+        </div>
+			</div>
+		</section>
+
+{% endif %}
+
+
+
+{% if user.is_authenticated and user.is_employer %}
+
+	<section  style="height:100vh;">
+		<div class="container">
+			<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" >
+			  
+			<div class="col-xl-10 ftco-animate mb-5 pb-3" >
+				<div class="row justify-content-center"><img class="img-comp" src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaHxlbnwwfHwwfHw%3D&w=1000&q=80" style="  opacity:0.5;z-index:1"></div>
+
+				<div class="row justify-content-center s1" style="color:grey;">Find the perfect fit for your team with Qwerty</div>
+				<div class="row justify-content-center s1" style="color:grey;">Expand your team with top talent</div>
+				<div class="row justify-content-center s1" style="color:grey;">Post your job openings</div>
+
+				<div class="row justify-content-center" style="z-index:4;">
+					  <div class="mt-4" style="background-color:black;" class="row justify-content-center">
+						<button class="btn" onclick="location.href='{% url 'jobs:create_job' %}'" style="background-color:black; color:white; border:1px solid white; height:60px; width:180px;">Post a Job</button>
+						<button class="btn ml-2" onclick="location.href='{% url 'users:employer_jobs' %}'" style="background-color:black; color:white; border:1px solid white; height:60px; width:180px;">My Posted Jobs</button>
+					  </div>
+					</div>
+				</div>
+		</div>
+	</div>	
+
+
+	</section>
+
+{% endif %}
+
+
+	<section class="ftco-section ftco-counter" style="margin-top:2rem;" data-stellar-background-ratio="0.5">
+    	<div class="container">
+    		<div class="row justify-content-center">
+    			<div class="col-md-10">
+		    		<div class="row">
+		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+		            <div class="block-18 text-center">
+		              <div class="text">
+		                <strong class="number" data-number="{{ all_jobs }}">0</strong>
+		                <span>Jobs</span>
+		              </div>
+		            </div>
+		          </div>
+		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+		            <div class="block-18 text-center">
+		              <div class="text">
+		                <strong class="number" data-number="{{candidates}}">0</strong>
+		                <span>Profiles</span>
+		              </div>
+		            </div>
+		          </div>
+		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+		            <div class="block-18 text-center">
+		              <div class="text">
+		                <strong class="number" data-number="{{resumes}}">0</strong>
+		                <span>Resumes</span>
+		              </div>
+		            </div>
+		          </div>
+		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+		            <div class="block-18 text-center">
+		              <div class="text">
+		                <strong class="number" data-number="{{employers}}">0</strong>
+		                <span>Companies</span>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+	        </div>
+        </div>
+    	</div>
+    </section>
+
+
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+		<div class="container">
+		  <div class="row mb-5">
+			<div class="col-md" >
+				<div class="ftco-footer-widget mb-4">
+					<div class="col-md-12 mb-2 mb-md-0">
+				  <h2 class="ftco-heading-2" style="font-weight:bold;">Socials</h2>
+				  <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
+					  <li class="ftco-animate"><a href="https://x.com/__ded_sec_"><span class="icon-twitter"></span></a></li>
+					  <li class="ftco-animate"><a href="https://www.linkedin.com/in/nameera-pathan-ba17811b1/"><span class="icon-linkedin"></span></a></li>
+					  <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+					</ul>
+				</div>
+				</div>
+			  </div>
+			  <div class="col-md">
+			   <div class="ftco-footer-widget mb-4">
+				<div class="col-md-12 mb-2 mb-md-0">
+				<h2 class="ftco-heading-2" style="font-weight:bold;">About</h2>
+				<p>Welcome to Qwerty
+					where you can search for jobs, apply to positions, and connect with top employers. Whether you're a seasoned professional or just starting out, we have something for everyone.</p>
+			  </div>
+			</div>
+			</div>
+			<div class="col-md">
+			  <div class="ftco-footer-widget mb-4">
+				<div class="col-md-12 mb-2 mb-md-0">
+				  <h2 class="ftco-heading-2" style="font-weight:bold;">Have a Questions?</h2>
+				  <div class="block-23 mb-3">
+					<ul>
+					  <li><span class="icon icon-map-marker"></span><span class="text">Location over here.</span></li>
+					  <li><a href="#"><span class="icon icon-phone"></span><span class="text">0123456789</span></a></li>
+					  <li><a href="#"><span class="icon icon-envelope"></span><span class="text">Qwerty@qwertydomain.com</span></a></li>
+					</ul>
+				</div>
+				  </div>
+			  </div>
+			</div>
+		  </div>
+
+		</div>
+	  </footer>
+	
+
+
+{% endblock %}

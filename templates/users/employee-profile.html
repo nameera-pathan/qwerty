@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+{% if user.is_employee %}  
+<section class="ftco-section msg-display" style="height:100vh;">
+  <div class="container">
+    <div class="row justify-content-center mb-5 pb-3"> 
+        <div class="col-md-8 heading-section text-center ftco-animate p-4" style="border-radius:10px; background-color:rgb(30,30,30);">
+
+
+
+          <section class="mb-4 p-2" style="display:flex; justify-content:space-around; flex-wrap:wrap; border-radius:10px; ">
+            <section>
+              <h5><img style="border-radius:50%; height:230px; width:230px; border:5px solid grey;" src="{{ profile.image.url }}"></h5>
+       
+              <h2 class="mb-4 d-flex ml-2 row justify-content-center align-items-center" style="text-align:center;">
+        
+                  {% if profile.website or profile.twitter or profile.facebook or profile.instagram  %}
+                  <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
+                    {% if profile.website != "" %}
+                    <li class="ftco-animate">
+                        <a href="{{ profile.website }}" title="Website" target="_blank">
+                        <span class="icon-chain"></span>
+                      </a>
+                    </li>
+                    {% endif %}
+                    {% if profile.twitter != "" %}
+                    <li class="ftco-animate">
+                      <a href="{{ profile.twitter }}" title="Twitter" target="_blank">
+                      <span class="icon-twitter"></span>
+                      </a>
+                    </li>
+                    {% endif %}
+                    {% if profile.github != "" %}
+                    <li class="ftco-animate">
+                      <a href="{{ profile.github }}" title="Github" target="_blank">
+                        <span class="icon-github"></span>
+                      </a>
+                    </li>
+                    {% endif %}
+                    {% if profile.instagram != "" %}
+                    <li class="ftco-animate">
+                      <a href="{{ profile.instagram }}" title="Instagram" target="_blank">
+                        <span class="icon-instagram"></span>
+                      </a>
+                    </li>
+                    {% endif %}
+                </ul>          
+                {% endif %}            
+
+
+                </h2>
+              </section>  
+
+        
+
+              <section class="" style="padding:15px; height:230px; width:340px; border-radius:10px; ">
+
+                <table style="border-radius:10px; border-top:none; ">
+                  <tbody style="border-radius:10px; border:none;">
+                    <tr style="border-radius:10px; text-align:left; letter-spacing:1px; font-size:23px; font-weight:bold;">
+                      <td colspan="2">{{ account.first_name }}  {{ account.last_name }}</td>
+                    </tr>
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td><span class="icon-mail_outline"></span> &nbsp; {{ account.email }}</td>
+                    </tr>
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td><span class="icon-birthday-cake"></span> &nbsp; {{ account.birth_day }}</td>
+                    </tr>
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td><span class="icon-my_location"></span> &nbsp; {{ account.location }}</td>
+                    </tr>
+                    {% if profile.education %}
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td><span class="icon-local_library"></span> &nbsp; {{ profile.education }}</td>
+                    </tr>
+                    {% endif %}
+                  </tbody>
+                </table>
+
+               
+                <div class="mt-2  d-flex justify-content-start">
+                  {% if profile.resume %}
+                  <a href="{{ profile.resume.url }}" target="_blank" id="res" class="btn btn-success mr-2" style="text-decoration:none;">
+                    View Resume
+                  </a>
+                  {% endif %}               
+                  <a class="btn btn-primary" href="{% url 'users:update_profile' pk=user.get_profile_id %}">
+                    Update Profile
+                  </a>
+             
+                </div>
+                
+
+              </section>
+            </section>
+
+
+              {% if profile.about %}
+              <div class="col-md-10 mb-4 mb-md-0">
+              <h4 style="text-align:left; color:grey;">About</h4>
+                <p class="job-desc" style="text-align:left; border-radius:10px; padding:10px;">
+                {{ profile.about }} 
+                </p>
+              </div>
+              <hr>
+            {% endif %}
+
+            {% if tags %}
+            <div class="col-md-10 mb-4 mb-md-0"> 
+            <h4 style="color:grey; text-align:left;">Skills</h4>
+                <ul class="list-unstyled row d-flex flex-wrap" style="padding:15px;">
+                {% for tag in tags %}
+                  <li class="badge badge-pill badge-secondary mr-2" style=" padding:10px; font-size:17px;">{{ tag }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+          <hr>
+            {% endif %}
+
+          </div> <!-- .col-md-8 -->
+
+
+
+
+        </div>
+
+      </div>
+    </div>
+  </section> <!-- .section -->
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+{% comment %}  {% endcomment %}
+
+
+
+
+{% if user.is_employer %}  
+<section class="ftco-section msg-display" style="height:100vh;">
+  <div class="container">
+    <div class="row justify-content-center mb-5 pb-3"> 
+        <div class="col-md-8 heading-section text-center ftco-animate p-4" style="border-radius:10px; background-color:rgb(30,30,30);">
+
+
+
+          <section class="mb-4 p-2" style="display:flex; justify-content:space-around; flex-wrap:wrap; border-radius:10px; ">
+            <section>
+              <h5><img style="border-radius:50%; height:230px; width:230px; border:5px solid grey;" src="{{ profile.image.url  }}"></h5>
+       
+              <h2 class="mb-4 d-flex ml-2 row justify-content-center align-items-center" style="text-align:center;">
+        
+                  {% if profile.website or profile.twitter or profile.facebook or profile.instagram  %}
+                  <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
+                    {% if profile.website != "" %}
+                    <li class="ftco-animate">
+                        <a href="{{ profile.website }}" title="Website" target="_blank">
+                        <span class="icon-chain"></span>
+                      </a>
+                    </li>
+                    {% endif %}
+                    {% if profile.twitter != "" %}
+                    <li class="ftco-animate">
+                      <a href="{{ profile.twitter }}" title="Twitter" target="_blank">
+                      <span class="icon-twitter"></span>
+                      </a>
+                    </li>
+                    {% endif %}
+                    {% if profile.github != "" %}
+                    <li class="ftco-animate">
+                      <a href="{{ profile.github }}" title="Github" target="_blank">
+                        <span class="icon-github"></span>
+                      </a>
+                    </li>
+                    {% endif %}
+                    {% if profile.instagram != "" %}
+                    <li class="ftco-animate">
+                      <a href="{{ profile.instagram }}" title="Instagram" target="_blank">
+                        <span class="icon-instagram"></span>
+                      </a>
+                    </li>
+                    {% endif %}
+                </ul>          
+                {% endif %}            
+
+
+                </h2>
+              </section>  
+
+        
+
+              <section class="" style="padding:15px; height:230px; width:340px; border-radius:10px; ">
+
+                <table style="border-radius:10px; border-top:none; ">
+                  <tbody style="border-radius:10px; border:none;">
+                    <tr style="border-radius:10px; text-align:left; letter-spacing:1px; font-size:23px; font-weight:bold;">
+                      <td colspan="2">{{ account.first_name }}  {{ account.last_name }}</td>
+                    </tr>
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td><span class="icon-mail_outline"></span> &nbsp; {{ account.email }}</td>
+                    </tr>
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td><span class="icon-birthday-cake"></span> &nbsp; {{ account.birth_day }}</td>
+                    </tr>
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td><span class="icon-my_location"></span> &nbsp; {{ account.location }}</td>
+                    </tr>
+                    {% if profile.education %}
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td><span class="icon-local_library"></span> &nbsp; {{ profile.education }}</td>
+                    </tr>
+                    {% endif %}
+                  </tbody>
+                </table>
+
+                {% if profile.resume %}
+                <div class="mt-2  d-flex justify-content-start">
+                  <a href="{{ profile.resume.url }}" target="_blank" id="res" class="btn btn-success mr-2" style="text-decoration:none;">
+                    View Resume
+                  </a>
+           
+                </div>
+                {% endif %}
+                
+
+              </section>
+            </section>
+
+
+              {% if profile.about %}
+              <div class="col-md-10 mb-4 mb-md-0">
+              <h4 style="text-align:left; color:grey;">About</h4>
+                <p class="job-desc" style="text-align:left; border-radius:10px; padding:10px;">
+                {{ profile.about }} 
+                </p>
+              </div>
+              <hr>
+            {% endif %}
+
+            {% if tags %}
+            <div class="col-md-10 mb-4 mb-md-0"> 
+            <h4 style="color:grey; text-align:left;">Skills</h4>
+                <ul class="list-unstyled row d-flex flex-wrap" style="padding:15px;">
+                {% for tag in tags %}
+                  <li class="badge badge-pill badge-secondary mr-2" style=" padding:10px; font-size:17px;">{{ tag }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+          <hr>
+            {% endif %}
+
+
+            {% if is_selected == False and is_rejected == False %}
+            <form action="" method="post" class="mt-4">
+                {% csrf_token %}              
+              <div class="row justify-content-center"> 
+                <div class="form-group mr-4">
+                  <input type="submit" value="select" name="select" class="btn btn-primary py-2 px-5">
+                </div>
+
+                <div class="form-group">
+                  <input type="submit" value="reject" name="reject" class="btn btn-danger py-2 px-5">
+                </div>
+              </div>  
+
+            </form>
+            {% endif %}
+
+
+            {% if is_selected and not is_rejected %}
+            {% comment %} <div style="color:white;">selected = {{ is_selected }}</div>
+            <div style="color:white;">rejected = {{ is_rejected }}</div> {% endcomment %}
+            <h3 class="alert alert-success" role="alert" style="font-weight:bold; letter-spacing:1px;">
+                SELECTED
+            </h3>
+            {% endif %}
+
+            {% if is_rejected and not is_selected %}
+              <h3 class="alert alert-danger" role="alert" style="font-weight:bold; letter-spacing:1px;">
+                REJECTED
+              </h3>
+            {% endif %}
+
+
+          </div> <!-- .col-md-8 -->
+
+
+
+
+        </div>
+
+      </div>
+    </div>
+  </section> <!-- .section -->
+
+{% endif %}
+
+	{% endblock %}
+

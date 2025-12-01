@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="ftco-section msg-display" style="height:100vh;">
+  <div class="container">
+      <div class="row justify-content-center mb-5 pb-3 pl-2">
+            <div class="col-md-8 ftco-animate" style="border:1px solid white; border-radius:10px; padding:10px;">
+              <h4 class="mb-3" style="color:white;">{{ invite_message.date }}</h4>
+              <h3 style="color:white;">Hello {{ user.first_name }} {{ user.last_name }}</h3>
+              <p style="color:white;">{{ invite_message.message|safe }}</p>
+              <p style="color:white;">Best regards, <br> {{ invite_message.company }} company</p>
+           </div> 
+      </div>
+  </div>
+</section> <!-- .section -->
+
+	{% endblock %}
+

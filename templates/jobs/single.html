@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="ftco-section msg-display" style="height:100vh;">
+    <div class="container">
+      <div class="row justify-content-center mb-5 pb-3"> 
+          <div class="col-md-8 heading-section text-center ftco-animate p-4" style="border-radius:10px; background-color:rgb(30,30,30);">
+
+
+            <section class="mb-4 p-2" style="display:flex; justify-content:space-around; flex-wrap:wrap; border-radius:10px; ">
+              <section>
+                <h5><img style="border-radius:50%; height:230px; width:230px; border:5px solid grey;" src="{{ job.companylogo.url  }}"></h5>
+         
+                <h2 class="mb-4 d-flex ml-2 row justify-content-center align-items-center" style="text-align:center;">
+                    {% if job.website or job.twitter or job.facebook or job.instagram  %}
+                      <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
+                        {% if job.website != "" %}
+                        <li class="ftco-animate">
+                            <a href="{{ job.website }}" title="Website" target="_blank">
+                            <span class="icon-chain"></span>
+                          </a>
+                        </li>
+                        {% endif %}
+                        {% if job.twitter != "" %}
+                        <li class="ftco-animate">
+                          <a href="{{ job.twitter }}" title="Twitter" target="_blank">
+                          <span class="icon-twitter"></span>
+                          </a>
+                        </li>
+                        {% endif %}
+                        {% if job.facebook != "" %}
+                        <li class="ftco-animate">
+                          <a href="{{ job.facebook }}" title="Facebook" target="_blank">
+                            <span class="icon-facebook"></span>
+                          </a>
+                        </li>
+                        {% endif %}
+                        {% if job.instagram != "" %}
+                        <li class="ftco-animate">
+                          <a href="{{ job.instagram }}" title="Instagram" target="_blank">
+                            <span class="icon-instagram"></span>
+                          </a>
+                        </li>
+                        {% endif %}
+                    </ul>          
+                    {% endif %}            
+
+                </h2>
+              </section>  
+
+              <section class="" style="padding:15px; height:230px; width:340px; border-radius:10px;">
+
+                <table style="border-radius:10px; border-top:none;">
+                  <tbody style="border-radius:10px; border:none;">
+                    <tr style="border-radius:10px; text-align:left; letter-spacing:1px; font-size:23px; font-weight:bold;">
+                      <td colspan="3">{{ job.title }}</td>
+                    </tr>
+
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td><span class="icon-layers"></span> {{ job.company }}</td>
+                    </tr>
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td><span class="icon-my_location"></span> {{ job.location }}</td>
+                    </tr>
+
+                    {% if job.salary != 0.00 %}
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td>
+                        <span class="icon-monetization_on"></span> {{ job.salary }}                       
+                      </td>
+                    </tr>
+                    {% endif %}
+
+                    <tr style="border-radius:10px; letter-spacing:1px; text-align:left; font-size:17px;">
+                      <td>
+                        <div class="badge-wrap">
+                          {% if job.job_type == 'full_time' %}
+                         <span class="bg-warning text-white badge py-2 px-3">Full Time</span>
+                          {% elif job.job_type == 'part_time'%}
+                        <span class="bg-info text-white badge py-2 px-3">Part Time</span>
+                         {% elif job.job_type == 'freelance'%}
+                        <span class="bg-secondary text-white badge py-2 px-3">Freelance</span>
+                        {% elif job.job_type == 'internship'%}
+                        <span class="bg-primary text-white badge py-2 px-3">Internship</span>
+                       {% elif job.job_type == 'temporary'%}
+                        <span class="bg-danger text-white badge py-2 px-3">Temporary</span>
+                         {% endif %}
+                        </div>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+
+
+
+              </section>
+            </section>
+
+
+            <h4 style="color:grey; text-align:left;">Job Description</h4>
+            <p class="job-desc" style="text-align:left; border-radius:10px; padding:10px;">{{ job.description|safe }}</p>
+            {% if job.qualification != '' %}
+            <h4 style="color:grey; text-align:left;">Qualification</h4>
+            <p class="job-desc" style="text-align:left; border-radius:10px; padding:10px;">{{ job.qualification|safe }}</p>
+            {% endif %}
+            <hr>
+
+            {% if tags %}
+            <h4 style="color:grey; text-align:left;">Skills Required</h4>
+            <div class="col-md-10 mb-4 mb-md-0">
+            <ul class="list-unstyled row d-flex flex-wrap" >
+            {% for tag in tags %}
+              <li class="badge badge-pill badge-secondary mr-2 mb-2" style=" padding:10px; font-size:17px;">{{ tag }}</li>
+            {% endfor %}
+            </ul>
+          </div>
+            {% endif %}
+
+            <hr>
+
+    <form method="post" class="" >
+       {% csrf_token %}
+          {% if user.is_employee %}
+
+          <section class="row justify-content-center">
+               <div class="row justify-content-center" style="background-color:white; border-radius:10px; padding:10px; width:250px;">
+                {% if employee_applied %}
+                   <input type="submit" value="Applied" style="cursor:default;" class="btn btn-primary py-2 mr-1" disabled title="You Already applied">
+                {% else %}
+                   <input type="submit" value="Apply now" class="btn btn-primary py-2 mr-1">
+
+                    {% if in_my_list %}
+                    <a  href="javascripts:void(0);" title="Remove from saved jobs" onclick="addorremove({{ job.id }})" class="btn rounded-circle  d-flex align-items-center">
+                      <span>
+                      <img id="jobsj{{ job.id }}"  data-sj="1" src="https://cdn-icons-png.flaticon.com/512/2107/2107845.png" style="height:20px;wdith:20px;" > 
+                      </span>
+                    </a>
+                    {% else %}
+
+                    <a href="javascripts:void(0);" title="Save this job"  onclick="addorremove({{ job.id }})" class="btn rounded-circle  d-flex align-items-center">
+                      <span>
+                      <img id="jobsj{{ job.id }}" data-sj="0" src="https://cdn-icons-png.flaticon.com/512/2107/2107952.png" style="height:20px;wdith:20px;"/>
+                      </span>
+                    </a>
+                     {% endif %}
+                     
+                 {% endif %}
+               </div>
+            </section>  
+      {% endif %}
+    </form>
+
+
+{% if user.is_employer and user.id == employer_id %}
+
+    <a href="{% url 'jobs:employees_applied' slug=job.slug pk=job.pk %}" class="btn btn-primary mb-2">Applied Candidates</a>
+    <a href="{% url 'jobs:employees_selected' slug=job.slug pk=job.pk %}" class="btn btn-success mb-2">Selected Candidates</a>
+    <a href="{% url 'jobs:employees_rejected' slug=job.slug pk=job.pk %}" class="btn btn-danger mb-2">Rejected Candidates</a>
+
+            <div class="tag-widget post-tag-container mb-5 mt-5">
+              <a href="{% url 'jobs:delete_job' slug=job.slug pk=job.pk %}" class="btn btn-danger py-2 mr-1">Delete</a>
+              <a href="{% url 'jobs:update_job' slug=job.slug pk=job.pk %}" class="btn btn-primary py-2 mr-1">Update</a>
+            </div>
+
+{% endif %}
+ </div> 
+
+          
+
+
+          </div>
+
+        </div>
+      </div>
+    </section> 
+
+	{% endblock %}
+
